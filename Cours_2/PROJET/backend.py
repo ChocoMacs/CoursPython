@@ -2,7 +2,7 @@ import sqlite3
 import time
 import psutil
 import os
-import shutil
+
 #import keyboard
 
 # Archives Old DB
@@ -17,7 +17,7 @@ try:
         # DBsql :
         con = sqlite3.connect(PATH_DB)
         cur = con.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_total, ram_used, ram_free)")
+        cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_total, ram_used, ram_free, batt)")
 
         # Metriques :
         ## temps
@@ -42,18 +42,26 @@ try:
         mem_free = mem[4].split("=")
         mem_free = mem_free[1]
         mem_free = round(int(mem_free)/1024**3, ndigits=1)
+
+        # Battery
+        batt = str(psutil.sensors_battery())
+        batt = batt.replace('=',',')
+        batt = batt.split()
+        batt = batt[0].split(',')
+        batt = batt[1]
+
         
         # Alimentation de la DB
-        cur.execute("INSERT INTO stats VALUES (?,?,?,?,?)",(time_stamp,cpu_usage,mem_total,mem_used,mem_free))
+        cur.execute("INSERT INTO stats VALUES (?,?,?,?,?,?)",(time_stamp,cpu_usage,mem_total,mem_used,mem_free,batt))
         con.commit()
 
-        # Tempoisation
+        # Temporisation
         time.sleep(5)
 
         #Print de la DB pour vérifications
         os.system('cls' if os.name == 'nt' else 'clear')
-        for row in cur.execute("SELECT time, cpu, ram_total, ram_used, ram_free FROM stats "):
-            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2],"ram total" ,row[3],"ram free" ,row[4],"ram used"  )
+        for row in cur.execute("SELECT time, cpu, ram_total, ram_used, ram_free, batt FROM stats "):
+            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2],"ram total" ,row[3],"ram free" ,row[4],"ram used",row[5], "de batterie" )
     
 except KeyboardInterrupt:
     print("\nProgram terminated by user.")
