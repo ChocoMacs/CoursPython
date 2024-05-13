@@ -10,7 +10,7 @@ app = Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
-            dcc.Graph(id='cpu'), width=6 #mettre 2 colonnes ,dcc.Graph(id='ram', width = 6)
+            dcc.Graph(id='cpu'), width=6 
         ),
         dbc.Col(
             dcc.Graph(id='ram_used'), width=6

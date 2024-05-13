@@ -8,8 +8,8 @@ import os
 # Archives Old DB
 PATH_DB = "Cours_2/PROJET/metrics.db"
 ARCHIVES_DB = "Cours_2/PROJET/metrics.old_db"
-if os.path.isfile(PATH_DB):
-    os.rename(PATH_DB,ARCHIVES_DB)
+#if os.path.isfile(PATH_DB):
+#    os.rename(PATH_DB,ARCHIVES_DB)
 
 
 try:
@@ -43,14 +43,35 @@ try:
         mem_free = mem_free[1]
         mem_free = round(int(mem_free)/1024**3, ndigits=1)
 
-        # Battery
+        ## Battery
         batt = str(psutil.sensors_battery())
         batt = batt.replace('=',',')
         batt = batt.split()
         batt = batt[0].split(',')
         batt = batt[1]
 
+        ## Disk 
+        disk = str(psutil.disk_usage("/System/Volumes/Data"))
+        disk = disk.replace(",","=")
+        disk = disk.replace(")","")
+        disk = disk.split("=")
+     
+        total_disk = disk[1].split("=")
+        total_disk = total_disk[0]
+        total_disk = round(int(total_disk)/1024**3, ndigits=1)
+     
+        used_disk = disk[3].split("=")
+        used_disk = used_disk[0]
+        used_disk = round(int(used_disk)/1024**3, ndigits=1)
+     
+        free_disk = disk[5].split("=")
+        free_disk = free_disk[0]
+        free_disk = round(int(free_disk)/1024**3, ndigits=1)
+    
+        percent_disk = disk[7].split("=")
+        percent_disk = percent_disk[0]
         
+
         # Alimentation de la DB
         cur.execute("INSERT INTO stats VALUES (?,?,?,?,?,?)",(time_stamp,cpu_usage,mem_total,mem_used,mem_free,batt))
         con.commit()
