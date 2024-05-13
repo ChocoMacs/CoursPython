@@ -10,8 +10,8 @@ PATH_DB = "Cours_2/PROJET/metrics.db"
 ARCHIVES_DB = "Cours_2/PROJET/metrics.old_db"
 if os.path.isfile(PATH_DB):
     n = int(input("Nouvelle DB : Y/N"))
-    if (n == "Y")
-    os.rename(PATH_DB,ARCHIVES_DB)
+    if (n == "Y"):
+        os.rename(PATH_DB,ARCHIVES_DB)
 
 
 try:
