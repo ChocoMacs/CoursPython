@@ -8,8 +8,10 @@ import os
 # Archives Old DB
 PATH_DB = "Cours_2/PROJET/metrics.db"
 ARCHIVES_DB = "Cours_2/PROJET/metrics.old_db"
-#if os.path.isfile(PATH_DB):
-#    os.rename(PATH_DB,ARCHIVES_DB)
+if os.path.isfile(PATH_DB):
+    n = int(input("Nouvelle DB : Y/N"))
+    if (n == "Y")
+    os.rename(PATH_DB,ARCHIVES_DB)
 
 
 try:
@@ -17,7 +19,7 @@ try:
         # DBsql :
         con = sqlite3.connect(PATH_DB)
         cur = con.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_total, ram_used, ram_free, batt)")
+        cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_used, ram_free, batt, used_disk, free_disk )")
 
         # Metriques :
         ## temps
@@ -73,7 +75,7 @@ try:
         
 
         # Alimentation de la DB
-        cur.execute("INSERT INTO stats VALUES (?,?,?,?,?,?)",(time_stamp,cpu_usage,mem_total,mem_used,mem_free,batt))
+        cur.execute("INSERT INTO stats VALUES (?,?,?,?,?,?,?)",(time_stamp,cpu_usage,mem_used,mem_free,batt,used_disk,free_disk))
         con.commit()
 
         # Temporisation
@@ -81,8 +83,8 @@ try:
 
         #Print de la DB pour vérifications
         os.system('cls' if os.name == 'nt' else 'clear')
-        for row in cur.execute("SELECT time, cpu, ram_total, ram_used, ram_free, batt FROM stats "):
-            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2],"ram total" ,row[3],"ram free" ,row[4],"ram used",row[5], "de batterie" )
+        for row in cur.execute("SELECT time, cpu, ram_used, ram_free, batt ,used_disk, free_disk FROM stats "):
+            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2],"ram free" ,row[3],"ram used" ,row[4],"de batterie",row[5], "Go utilisé",row[6], "Go de free")
     
 except KeyboardInterrupt:
     print("\nProgram terminated by user.")
