@@ -2,12 +2,20 @@ import sqlite3
 import time
 import psutil
 import os
+import shutil
 #import keyboard
+
+# Archives Old DB
+PATH_DB = "Cours_2/PROJET/metrics.db"
+ARCHIVES_DB = "Cours_2/PROJET/metrics.old_db"
+if os.path.isfile(PATH_DB):
+    os.rename(PATH_DB,ARCHIVES_DB)
+
 
 try:
     while True:
         # DBsql :
-        con = sqlite3.connect("Cours_2/PROJET/metrics.db")
+        con = sqlite3.connect(PATH_DB)
         cur = con.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_total, ram_used, ram_free)")
 
