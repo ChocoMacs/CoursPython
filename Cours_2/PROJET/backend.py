@@ -53,7 +53,7 @@ try:
         #Print de la DB pour vérifications
         os.system('cls' if os.name == 'nt' else 'clear')
         for row in cur.execute("SELECT time, cpu, ram_total, ram_used, ram_free FROM stats "):
-            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2] ,row[3] ,row[4]  )
+            print ("A",row[0],"votre cpu est à",row[1],"%" ,row[2],"ram total" ,row[3],"ram free" ,row[4],"ram used"  )
     
 except KeyboardInterrupt:
     print("\nProgram terminated by user.")
