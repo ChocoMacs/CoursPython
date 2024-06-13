@@ -9,10 +9,10 @@ import os
 PATH_DB = "Cours_2/PROJET/metrics.db"
 ARCHIVES_DB = "Cours_2/PROJET/metrics.old_db"
 if os.path.isfile(PATH_DB):
-    n = int(input("Nouvelle DB : Y/N"))
+    n = input("Nouvelle DB : Y/N")
     if (n == "Y"):
         os.rename(PATH_DB,ARCHIVES_DB)
-
+    
 
 try:
     while True:
@@ -21,7 +21,7 @@ try:
         cur = con.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS stats (time, cpu, ram_used, ram_free, batt, used_disk, free_disk )")
 
-        # Metriques :
+        # Metriques a disposition:
         ## temps
         time_stamp = time.strftime("%Y-%m-%d %H:%M:%S")
 
